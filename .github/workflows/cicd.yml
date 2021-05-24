@@ -37,7 +37,8 @@ jobs:
 
         
   DeployStaging:
-    name: Deploy to Staging 
+    name: Deploy to Staging
+    needs: [Build]
     runs-on: ubuntu-latest
     environment: 
       name: Staging
@@ -64,6 +65,7 @@ jobs:
         
   DeployProduction:
     name: Deploy to Prod 
+    needs: [DeployStaging]
     runs-on: ubuntu-latest
     environment: 
       name: Production
