@@ -17,12 +17,6 @@ jobs:
     
       - name: Compile
         run: echo Hello, world!
-        
-      - name: Login via Az module
-        uses: azure/login@v1
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-          enable-AzPSSession: true 
           
       - name: Create project folder
         run: |
@@ -43,6 +37,11 @@ jobs:
     environment: 
       name: Staging
     steps:
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
     - name: Get publish Profile
       id: fncapp
       uses: azure/powershell@v1
@@ -70,6 +69,11 @@ jobs:
     environment: 
       name: Production
     steps:
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
     - name: Get publish Profile
       id: fncapp
       uses: azure/powershell@v1
