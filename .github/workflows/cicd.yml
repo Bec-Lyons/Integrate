@@ -50,7 +50,7 @@ jobs:
           Write-Output "::set-output name=profile::$profile"
         azPSVersion: latest
 
-    - name: 'Run Azure Functions Action'
+    - name: Deploy to Azure Logic App
       uses: Azure/functions-action@v1
       id: fa
       with:
@@ -81,7 +81,7 @@ jobs:
           $profile = $profile.Replace("`r", "").Replace("`n", "")
           Write-Output "::set-output name=profile::$profile"
         azPSVersion: latest
-    - name: 'Run Azure Functions Action'
+    - name: Deploy to Azure Arc enabled Logic App
       uses: Azure/functions-action@v1
       id: fa
       with:
