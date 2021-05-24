@@ -22,12 +22,12 @@ jobs:
       - name: Easy Zip Files
         uses: vimtor/action-zip@v1
         with:
-          dest: '${{ github.run_id }}.zip'
+          dest: build-art/${{ github.run_id }}.zip
           files: output/
       - uses: actions/upload-artifact@master
         with:
           name: build-artefact
-          path: output/
+          path: build-art/
 
         
   DeployStaging:
@@ -58,16 +58,16 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: build-artefact
-        path: output/
+        path: build-art/
         
-    - run: ls output/
+    - run: ls build-art/
         
     - name: Deploy to Azure Logic App
       uses: Azure/functions-action@v1
       id: la
       with:
         app-name: ${{secrets.RG_LA}}
-        package: output/${{ github.run_id }}.zip
+        package: build-art/${{ github.run_id }}.zip
         publish-profile: ${{steps.laapp.outputs.profile}}
         
   DeployProduction:
@@ -97,11 +97,11 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: build-artefact
-        path: output/
+        path: build-art/
     - name: Deploy to Azure Arc enabled Logic App
       uses: Azure/functions-action@v1
       id: arcla
       with:
         app-name: ${{secrets.RG_LA}}
-        package: output/${{ github.run_id }}.zip
+        package: build-art/${{ github.run_id }}.zip
         publish-profile: ${{steps.laarcapp.outputs.profile}}
