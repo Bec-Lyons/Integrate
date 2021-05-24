@@ -64,7 +64,7 @@ jobs:
       id: fa
       with:
         app-name: ${{secrets.RG_LA}}
-        package: '${{ github.run_id }}.zip'
+        package: 'output/${{ github.run_id }}.zip'
         publish-profile: ${{steps.fncapp.outputs.profile}}
         
   DeployProduction:
@@ -99,5 +99,5 @@ jobs:
       id: fa
       with:
         app-name: ${{secrets.RG_LA}}
-        package: '${{ github.run_id }}.zip'
+        package: 'output/${{ github.run_id }}.zip'
         publish-profile: ${{steps.fncapp.outputs.profile}}
