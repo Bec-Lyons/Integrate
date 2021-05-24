@@ -60,6 +60,8 @@ jobs:
         name: build-artefact
         path: output/
         
+    - run: ls output/
+        
     - name: Deploy to Azure Logic App
       uses: Azure/functions-action@v1
       id: la
