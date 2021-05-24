@@ -24,6 +24,10 @@ jobs:
         with:
           dest: '${{ github.run_id }}.zip'
           files: output/
+      - uses: actions/upload-artifact@master
+        with:
+          name: build-artefact
+          path: output/
 
         
   DeployStaging:
@@ -49,7 +53,12 @@ jobs:
           $profile = $profile.Replace("`r", "").Replace("`n", "")
           Write-Output "::set-output name=profile::$profile"
         azPSVersion: latest
-
+        
+    - uses: actions/download-artifact@master
+      with:
+        name: build-artefact
+        path: output/
+        
     - name: Deploy to Azure Logic App
       uses: Azure/functions-action@v1
       id: fa
@@ -81,6 +90,10 @@ jobs:
           $profile = $profile.Replace("`r", "").Replace("`n", "")
           Write-Output "::set-output name=profile::$profile"
         azPSVersion: latest
+    - uses: actions/download-artifact@master
+      with:
+        name: build-artefact
+        path: output/
     - name: Deploy to Azure Arc enabled Logic App
       uses: Azure/functions-action@v1
       id: fa
