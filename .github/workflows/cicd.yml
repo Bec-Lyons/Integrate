@@ -1,9 +1,5 @@
 name: Build and Deploy Logic App. 
 
-env:
-  RG_LA: 'blylima3'
-  LA_NAME: 'bugbashdemo'
-
 on:
   push:
     branches: [ master ]
