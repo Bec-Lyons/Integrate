@@ -37,6 +37,7 @@ jobs:
     environment: 
       name: Staging
     steps:
+    - uses: actions/checkout@v2
     - name: Login via Az module
       uses: azure/login@v1
       with:
@@ -64,7 +65,7 @@ jobs:
       id: fa
       with:
         app-name: ${{secrets.RG_LA}}
-        package: /home/runner/work/Integrate/Integrate/output/${{ github.run_id }}.zip
+        package: output/${{ github.run_id }}.zip
         publish-profile: ${{steps.fncapp.outputs.profile}}
         
   DeployProduction:
@@ -74,6 +75,7 @@ jobs:
     environment: 
       name: Production
     steps:
+    - uses: actions/checkout@v2
     - name: Login via Az module
       uses: azure/login@v1
       with:
