@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir output
           cp 'host.json' 'output/'
-          cp -r 'devopsdemo' 'output/'
+          cp -r 'NewWorkflow' 'output/'
       - name: Easy Zip Files
         uses: vimtor/action-zip@v1
         with:
