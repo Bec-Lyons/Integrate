@@ -15,24 +15,6 @@
                 },
                 "runAfter": {}
             },
-            "Execute_Query": {
-                "type": "ServiceProvider",
-                "inputs": {
-                    "parameters": {
-                        "query": "select * from dbo.MyData"
-                    },
-                    "serviceProviderConfiguration": {
-                        "connectionName": "sql",
-                        "operationId": "executeQuery",
-                        "serviceProviderId": "/serviceProviders/sql"
-                    }
-                },
-                "runAfter": {
-                    "Call_an_Azure_function": [
-                        "Succeeded"
-                    ]
-                }
-            },
             "Send_Message": {
                 "type": "ServiceProvider",
                 "inputs": {
@@ -49,7 +31,7 @@
                     }
                 },
                 "runAfter": {
-                    "Execute_Query": [
+                    "Condition": [
                         "Succeeded"
                     ]
                 }
@@ -63,6 +45,40 @@
                 },
                 "runAfter": {
                     "Send_Message": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Condition": {
+                "type": "If",
+                "expression": {
+                    "and": [
+                        {
+                            "contains": [
+                                "@outputs('Call_an_Azure_function')?['body']",
+                                "Integrate"
+                            ]
+                        }
+                    ]
+                },
+                "actions": {
+                    "Execute_Query": {
+                        "type": "ServiceProvider",
+                        "inputs": {
+                            "parameters": {
+                                "query": "select * from dbo.MyData"
+                            },
+                            "serviceProviderConfiguration": {
+                                "connectionName": "sql",
+                                "operationId": "executeQuery",
+                                "serviceProviderId": "/serviceProviders/sql"
+                            }
+                        },
+                        "runAfter": {}
+                    }
+                },
+                "runAfter": {
+                    "Call_an_Azure_function": [
                         "Succeeded"
                     ]
                 }
