@@ -1,0 +1,82 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Call_an_Azure_function": {
+                "type": "Function",
+                "inputs": {
+                    "method": "POST",
+                    "body": {
+                        "name": "hello integrate!"
+                    },
+                    "function": {
+                        "connectionName": "azureFunctionOperation"
+                    }
+                },
+                "runAfter": {}
+            },
+            "Execute_Query": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "query": "select * from dbo.MyData"
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "sql",
+                        "operationId": "executeQuery",
+                        "serviceProviderId": "/serviceProviders/sql"
+                    }
+                },
+                "runAfter": {
+                    "Call_an_Azure_function": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Send_Message": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "entityName": "items-queue",
+                        "message": {
+                            "contentData": "@outputs('Execute_Query')?['body']"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "sendMessage",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "runAfter": {
+                    "Execute_Query": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Response": {
+                "type": "Response",
+                "kind": "http",
+                "inputs": {
+                    "statusCode": 200,
+                    "body": "Hello Integrate!"
+                },
+                "runAfter": {
+                    "Send_Message": [
+                        "Succeeded"
+                    ]
+                }
+            }
+        },
+        "triggers": {
+            "manual": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {}
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
+    },
+    "kind": "Stateful"
+}

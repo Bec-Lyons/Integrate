@@ -1,0 +1,37 @@
+{
+  "functionConnections": {
+    "azureFunctionOperation": {
+      "function": {
+        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/resourceGroups/lntegrate/providers/Microsoft.Web/sites/functionintegrate/functions/Functionlntegrate"
+      },
+      "triggerUrl": "https://functionintegrate.azurewebsites.net/api/functionlntegrate",
+      "authentication": {
+        "type": "QueryString",
+        "name": "Code",
+        "value": "@appsetting('azureFunctionOperation_functionAppKey')"
+      },
+      "displayName": "functionconnection"
+    }
+  },
+  "serviceProviderConnections": {
+    "sql": {
+      "parameterValues": {
+        "connectionString": "@appsetting('sql_connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/sql"
+      },
+      "displayName": "SQLconnection"
+    },
+    "serviceBus": {
+      "parameterValues": {
+        "connectionString": "@appsetting('serviceBus_connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/serviceBus"
+      },
+      "displayName": "Service Bus"
+    }
+  },
+  "managedApiConnections": {}
+}
